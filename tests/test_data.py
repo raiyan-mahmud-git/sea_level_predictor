@@ -1,12 +1,6 @@
 """
 tests/test_data.py – Unit tests for sealevel.data
 
-Tests cover:
-- load_data() with the real CSV
-- load_data() with synthetic CSVs (missing column, NaN handling)
-- filter_by_year() validation errors
-- inches_to_mm / mm_to_inches round-trip
-- summary_stats()
 """
 
 from __future__ import annotations
@@ -29,9 +23,8 @@ from sealevel.errors import (
     MissingColumnError,
 )
 
-# --------------------------------------------------------------------------- #
-# Fixtures                                                                     #
-# --------------------------------------------------------------------------- #
+# Fixtures                                                                     
+
 
 
 @pytest.fixture(scope="session")
@@ -57,9 +50,8 @@ def minimal_csv(tmp_path):
     return p
 
 
-# --------------------------------------------------------------------------- #
-# load_data() – happy path                                                     #
-# --------------------------------------------------------------------------- #
+# load_data() – happy path                                                     
+
 
 
 class TestLoadDataHappyPath:
@@ -94,9 +86,9 @@ class TestLoadDataHappyPath:
         assert len(df) == 5
 
 
-# --------------------------------------------------------------------------- #
-# load_data() – error cases                                                    #
-# --------------------------------------------------------------------------- #
+
+# load_data() – error cases                                                    
+
 
 
 class TestLoadDataErrors:
@@ -124,9 +116,8 @@ class TestLoadDataErrors:
         assert len(result) == 2  # 'text' row dropped
 
 
-# --------------------------------------------------------------------------- #
-# filter_by_year()                                                             #
-# --------------------------------------------------------------------------- #
+
+# filter_by_year()                                                             
 
 
 class TestFilterByYear:
@@ -155,9 +146,9 @@ class TestFilterByYear:
             filter_by_year(real_df, start_year=1880, column="Nonexistent")
 
 
-# --------------------------------------------------------------------------- #
-# Unit conversion                                                              #
-# --------------------------------------------------------------------------- #
+
+# Unit conversion
+
 
 
 class TestUnitConversion:
@@ -177,9 +168,8 @@ class TestUnitConversion:
         np.testing.assert_allclose(result, [0.0, 25.4, 50.8])
 
 
-# --------------------------------------------------------------------------- #
-# summary_stats()                                                              #
-# --------------------------------------------------------------------------- #
+
+# summary_stats()
 
 
 class TestSummaryStats:
