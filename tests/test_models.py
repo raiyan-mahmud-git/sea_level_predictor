@@ -1,14 +1,6 @@
 """
 tests/test_models.py – Unit tests for sealevel.models
 
-Tests cover:
-1. fit_linear() reproduces scipy.stats.linregress exactly
-2. Phase-0 baseline regression tests (exact numbers from audit)
-3. Synthetic data with known slope/intercept
-4. fit_polynomial() R² and prediction
-5. find_breakpoint() on synthetic piecewise data with known breakpoint
-6. fit_piecewise() structure
-7. predict_linear() – interval widths, monotonicity, units
 """
 
 from __future__ import annotations
@@ -28,9 +20,9 @@ from sealevel.models import (
     predict_polynomial,
 )
 
-# --------------------------------------------------------------------------- #
-# Fixtures                                                                     #
-# --------------------------------------------------------------------------- #
+
+# Fixtures
+
 
 
 @pytest.fixture(scope="session")
@@ -48,14 +40,13 @@ def fit_2000(real_df):
     return fit_linear(real_df, start_year=2000)
 
 
-# --------------------------------------------------------------------------- #
-# 1. Agreement with scipy.stats.linregress                                     #
-# --------------------------------------------------------------------------- #
+
+# 1. Agreement with scipy.stats.linregress
+
 
 
 class TestLinearFitAgreesWithScipy:
-    """fit_linear must produce bit-for-bit identical results to linregress."""
-
+    
     def test_all_data_slope(self, real_df, fit_all):
         ref = linregress(real_df["Year"], real_df["CSIRO Adjusted Sea Level"])
         assert abs(fit_all.slope - ref.slope) < 1e-10
@@ -83,10 +74,10 @@ class TestLinearFitAgreesWithScipy:
         assert abs(fit_2000.intercept - ref.intercept) < 1e-10
 
 
-# --------------------------------------------------------------------------- #
-# 2. Phase-0 baseline regression tests                                        #
-# Computed independently in Phase 0; tests fail if numbers change.            #
-# --------------------------------------------------------------------------- #
+
+# 2. Phase-0 baseline regression tests
+# Computed independently in Phase 0; tests fail if numbers change.            
+
 
 
 BASELINE_ALL = {
@@ -110,9 +101,7 @@ BASELINE_2000 = {
 
 
 class TestPhase0Baseline:
-    """These are regression tests. Do NOT change the expected values to match
-    code changes – instead investigate the code."""
-
+    
     def test_all_slope(self, fit_all):
         assert abs(fit_all.slope - BASELINE_ALL["slope"]) < 1e-6
 
@@ -151,13 +140,13 @@ class TestPhase0Baseline:
         assert abs(pred - BASELINE_2000["pred_2050_mm"]) < 0.05
 
 
-# --------------------------------------------------------------------------- #
-# 3. Synthetic data with known slope/intercept                                 #
-# --------------------------------------------------------------------------- #
+
+# 3. Synthetic data with known slope/intercep
+
 
 
 def make_synthetic(slope: float, intercept: float, n: int = 50) -> pd.DataFrame:
-    """Create a noise-free DataFrame with exact linear relationship."""
+   
     years = np.arange(1950, 1950 + n, dtype=int)
     levels = intercept + slope * years.astype(float)
     return pd.DataFrame({"Year": years, "CSIRO Adjusted Sea Level": levels})
@@ -183,16 +172,16 @@ class TestSyntheticData:
         assert fit.n == 30
 
 
-# --------------------------------------------------------------------------- #
-# 4. Polynomial fit                                                            #
-# --------------------------------------------------------------------------- #
+
+# 4. Polynomial fit
+
 
 
 class TestPolynomialFit:
     def test_fit_quadratic_on_real_data(self, real_df):
         fit = fit_polynomial(real_df, degree=2)
         assert len(fit.coeffs) == 3
-        assert fit.r_squared > 0.97  # should fit at least as well as linear
+        assert fit.r_squared > 0.97
 
     def test_prediction_at_2050_is_reasonable(self, real_df):
         fit = fit_polynomial(real_df, degree=2)
@@ -209,10 +198,8 @@ class TestPolynomialFit:
         assert abs(fit.r_squared - 1.0) < 1e-6
 
 
-# --------------------------------------------------------------------------- #
-# 5 & 6. Piecewise fit with known breakpoint                                  #
-# --------------------------------------------------------------------------- #
 
+# 5 & 6. Piecewise fit with known breakpoint
 
 def make_piecewise_data(bp: int = 1950) -> pd.DataFrame:
     """Synthetic two-slope data with a hard kink at *bp*."""
@@ -232,7 +219,7 @@ class TestPiecewiseFit:
         known_bp = 1950
         df = make_piecewise_data(bp=known_bp)
         bp = find_breakpoint(df, min_segment=5)
-        # Allow ±2 years tolerance (kink detection is approximate at edges)
+        # Allow ±2 years tolerance
         assert abs(bp - known_bp) <= 2
 
     def test_fit_piecewise_slopes_correct(self):
@@ -250,9 +237,8 @@ class TestPiecewiseFit:
         assert fit.total_rss > 0
 
 
-# --------------------------------------------------------------------------- #
-# 7. predict_linear – intervals                                                #
-# --------------------------------------------------------------------------- #
+
+# 7. predict_linear – intervals
 
 
 class TestPredictLinear:
