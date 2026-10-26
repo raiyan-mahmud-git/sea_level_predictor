@@ -52,9 +52,9 @@ import pandas as pd
 from scipy.stats import linregress
 from scipy.stats import t as t_dist
 
-# --------------------------------------------------------------------------- #
-# Dataclasses                                                                  #
-# --------------------------------------------------------------------------- #
+
+# Dataclasses
+
 
 
 @dataclass
@@ -146,9 +146,9 @@ class Predictions:
     unit: str  # 'inches' or 'mm'
 
 
-# --------------------------------------------------------------------------- #
-# Linear model                                                                 #
-# --------------------------------------------------------------------------- #
+
+# Linear model
+
 
 
 def fit_linear(
@@ -295,9 +295,9 @@ def predict_linear(
     return Predictions(df=result_df, unit="inches")
 
 
-# --------------------------------------------------------------------------- #
-# Polynomial model                                                             #
-# --------------------------------------------------------------------------- #
+
+# Polynomial model
+
 
 
 def fit_polynomial(
@@ -366,9 +366,9 @@ def predict_polynomial(
     return Predictions(df=result_df, unit="inches")
 
 
-# --------------------------------------------------------------------------- #
-# Piecewise linear model                                                       #
-# --------------------------------------------------------------------------- #
+
+# Piecewise linear model
+
 
 
 def find_breakpoint(

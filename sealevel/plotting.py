@@ -69,7 +69,7 @@ def make_trend_figure(
 
     fig = go.Figure()
 
-    # --- Error bounds from CSV (if available and requested) ---------------- #
+    # Error bounds from CSV (if available and requested)
     if (
         show_error_bounds
         and "Lower Error Bound" in df.columns
@@ -90,7 +90,7 @@ def make_trend_figure(
             )
         )
 
-    # --- Scatter: raw observations ----------------------------------------- #
+    # Scatter: raw observations
     fig.add_trace(
         go.Scatter(
             x=df["Year"],
@@ -102,7 +102,7 @@ def make_trend_figure(
         )
     )
 
-    # --- NOAA series (if available) ---------------------------------------- #
+    # NOAA series (if available)
     noaa_col = "NOAA Adjusted Sea Level"
     if noaa_col in df.columns:
         noaa = df.dropna(subset=[noaa_col])
@@ -118,7 +118,7 @@ def make_trend_figure(
                 )
             )
 
-    # --- Full-period linear trend ------------------------------------------ #
+    # Full-period linear trend
     if predictions_all is not None:
         pred_df = predictions_all.df
         y_all = pred_df["prediction"].to_numpy() * scale
@@ -157,7 +157,7 @@ def make_trend_figure(
             )
         )
 
-    # --- Recent linear trend ----------------------------------------------- #
+    # Recent linear trend
     if predictions_recent is not None:
         pred_r = predictions_recent.df
         y_rec = pred_r["prediction"].to_numpy() * scale
@@ -196,7 +196,7 @@ def make_trend_figure(
             )
         )
 
-    # --- Layout ------------------------------------------------------------ #
+    # Layout
     fig.update_layout(
         title=dict(text="Sea Level Rise", font=dict(size=18)),
         xaxis=dict(title="Year", gridcolor="#e0e0e0"),

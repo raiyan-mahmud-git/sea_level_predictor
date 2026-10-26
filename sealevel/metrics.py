@@ -1,17 +1,6 @@
 """
 metrics.py – Model evaluation metrics for the sealevel package.
 
-Provides:
-- rmse():     Root Mean Squared Error
-- mae():      Mean Absolute Error
-- backtest(): Time-based train/test split evaluation
-
-TIME-BASED BACKTESTING
------------------------
-For time-series data a random train/test split is wrong: if you train on 1990
-and test on 1985 you're predicting the past.  Instead we use an expanding
-window: train on [start, cutoff), test on [cutoff, end].  This simulates
-making predictions at the cutoff date.
 """
 
 from __future__ import annotations
@@ -23,9 +12,9 @@ import pandas as pd
 
 from sealevel.models import LinearFit, fit_linear
 
-# --------------------------------------------------------------------------- #
-# Basic metrics                                                                #
-# --------------------------------------------------------------------------- #
+
+# Basic metrics
+
 
 
 def rmse(actual: np.ndarray | pd.Series, predicted: np.ndarray | pd.Series) -> float:
@@ -53,9 +42,9 @@ def mae(actual: np.ndarray | pd.Series, predicted: np.ndarray | pd.Series) -> fl
     return float(np.mean(np.abs(a - p)))
 
 
-# --------------------------------------------------------------------------- #
-# Backtest                                                                     #
-# --------------------------------------------------------------------------- #
+
+# Backtest
+
 
 
 @dataclass

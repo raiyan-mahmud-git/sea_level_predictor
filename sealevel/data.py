@@ -34,9 +34,7 @@ from sealevel.errors import (
     MissingColumnError,
 )
 
-# --------------------------------------------------------------------------- #
-# Constants                                                                    #
-# --------------------------------------------------------------------------- #
+# Constants
 
 # Path to the bundled CSV, resolved relative to *this file* so it works from
 # any working directory.
@@ -57,9 +55,8 @@ OPTIONAL_COLUMNS = {
 INCHES_TO_MM: float = 25.4
 
 
-# --------------------------------------------------------------------------- #
-# Public API                                                                   #
-# --------------------------------------------------------------------------- #
+
+# Public API
 
 
 def load_data(csv_path: Path | str | None = None) -> pd.DataFrame:
@@ -87,31 +84,30 @@ def load_data(csv_path: Path | str | None = None) -> pd.DataFrame:
     """
     path = Path(csv_path) if csv_path is not None else _CSV_PATH
 
-    # --- 1. File existence ------------------------------------------------- #
+    # 1. File existence
     if not path.exists():
         raise DataLoadError(
             f"CSV file not found at '{path}'. "
             "Make sure 'epa-sea-level.csv' is at the repository root."
         )
 
-    # --- 2. Parse ---------------------------------------------------------- #
+    # 2. Parse
     try:
         df = pd.read_csv(path)
     except Exception as exc:
         raise DataLoadError(f"Could not parse '{path}': {exc}") from exc
 
-    # --- 3. Required columns ----------------------------------------------- #
+    # 3. Required columns
     for col in REQUIRED_COLUMNS:
         if col not in df.columns:
             raise MissingColumnError(col, df.columns.tolist())
 
-    # --- 4. Coerce types --------------------------------------------------- #
-    #   pandas usually infers these correctly, but we enforce numeric to catch
-    #   files with stray text in the data rows.
+    # 4. Coerce types
+ 
     for col in REQUIRED_COLUMNS:
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    # --- 5. Drop rows where required columns are NaN ----------------------- #
+    # 5. Drop rows where required columns are NaN
     before = len(df)
     df = df.dropna(subset=list(REQUIRED_COLUMNS))
     dropped = before - len(df)
@@ -123,7 +119,7 @@ def load_data(csv_path: Path | str | None = None) -> pd.DataFrame:
             stacklevel=2,
         )
 
-    # --- 6. Sort by year --------------------------------------------------- #
+    # 6. Sort by year
     df = df.sort_values("Year").reset_index(drop=True)
 
     return df
