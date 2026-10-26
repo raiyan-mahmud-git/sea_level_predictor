@@ -1,0 +1,7 @@
+[theme]
+# Colorblind-friendly theme using a warm ocean palette
+primaryColor = "#1565C0"         # deep blue – primary buttons / accents
+backgroundColor = "#FFFFFF"      # white canvas
+secondaryBackgroundColor = "#E3F2FD"  # light blue sidebar
+textColor = "#1A237E"            # dark navy text
+font = "sans serif"
