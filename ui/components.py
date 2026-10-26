@@ -19,9 +19,9 @@ from dataclasses import dataclass
 
 import streamlit as st
 
-# --------------------------------------------------------------------------- #
-# Sidebar control panel                                                        #
-# --------------------------------------------------------------------------- #
+
+# Sidebar control panel
+
 
 
 @dataclass
@@ -42,15 +42,7 @@ def render_sidebar(
     last_year: int = 2013,
     available_columns: list[str] | None = None,
 ) -> SidebarConfig:
-    """Render the sidebar control panel and return the user's selections.
-
-    Parameters
-    ----------
-    first_year, last_year:
-        Actual data bounds (computed from the dataset, never hard-coded).
-    available_columns:
-        List of numeric columns the user can analyse (from the CSV).
-    """
+    
     if available_columns is None:
         available_columns = ["CSIRO Adjusted Sea Level"]
 
@@ -141,10 +133,8 @@ def render_sidebar(
     )
 
 
-# --------------------------------------------------------------------------- #
-# Metric cards                                                                 #
-# --------------------------------------------------------------------------- #
 
+# Metric cards
 
 def render_metric_cards(
     fit_all,
