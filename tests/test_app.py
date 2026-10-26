@@ -1,12 +1,6 @@
 """
 tests/test_app.py – Streamlit AppTest smoke tests.
 
-These use Streamlit's built-in testing framework (streamlit.testing.v1).
-They verify:
-  - App loads without uncaught exceptions
-  - Each page (Overview, Trend Explorer, Model Lab, Methodology) renders cleanly
-  - Expected widgets and data are present
-  - Error states are caught cleanly without crashing the app
 """
 
 from __future__ import annotations

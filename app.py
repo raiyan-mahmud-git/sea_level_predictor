@@ -14,7 +14,7 @@ Page config is set here once (must be the first Streamlit call in the script).
 
 import streamlit as st
 
-# ── Page config must be the very first Streamlit call ──────────────────────
+# Page config
 st.set_page_config(
     page_title="Sea Level Predictor",
     page_icon="🌊",
@@ -31,7 +31,7 @@ st.set_page_config(
     },
 )
 
-# ── Pages ───────────────────────────────────────────────────────────────────
+# Pages
 from views import methodology, model_lab, overview, trends  # noqa: E402
 
 pages = {
@@ -41,7 +41,7 @@ pages = {
     "📐 Methodology": methodology.show,
 }
 
-# ── Sidebar navigation ──────────────────────────────────────────────────────
+# Sidebar navigation
 with st.sidebar:
     st.image(
         "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Sea_level_rise_observations.svg/640px-Sea_level_rise_observations.svg.png",
@@ -58,5 +58,5 @@ with st.sidebar:
         label_visibility="collapsed",
     )
 
-# ── Render selected page ─────────────────────────────────────────────────────
+# ── Render selected page
 pages[selected]()
