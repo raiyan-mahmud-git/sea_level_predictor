@@ -20,9 +20,7 @@ from sealevel.models import (
     predict_polynomial,
 )
 
-
 # Fixtures
-
 
 
 @pytest.fixture(scope="session")
@@ -40,13 +38,10 @@ def fit_2000(real_df):
     return fit_linear(real_df, start_year=2000)
 
 
-
 # 1. Agreement with scipy.stats.linregress
 
 
-
 class TestLinearFitAgreesWithScipy:
-    
     def test_all_data_slope(self, real_df, fit_all):
         ref = linregress(real_df["Year"], real_df["CSIRO Adjusted Sea Level"])
         assert abs(fit_all.slope - ref.slope) < 1e-10
@@ -74,10 +69,8 @@ class TestLinearFitAgreesWithScipy:
         assert abs(fit_2000.intercept - ref.intercept) < 1e-10
 
 
-
 # 2. Phase-0 baseline regression tests
-# Computed independently in Phase 0; tests fail if numbers change.            
-
+# Computed independently in Phase 0; tests fail if numbers change.
 
 
 BASELINE_ALL = {
@@ -101,7 +94,6 @@ BASELINE_2000 = {
 
 
 class TestPhase0Baseline:
-    
     def test_all_slope(self, fit_all):
         assert abs(fit_all.slope - BASELINE_ALL["slope"]) < 1e-6
 
@@ -140,13 +132,11 @@ class TestPhase0Baseline:
         assert abs(pred - BASELINE_2000["pred_2050_mm"]) < 0.05
 
 
-
 # 3. Synthetic data with known slope/intercep
 
 
-
 def make_synthetic(slope: float, intercept: float, n: int = 50) -> pd.DataFrame:
-   
+
     years = np.arange(1950, 1950 + n, dtype=int)
     levels = intercept + slope * years.astype(float)
     return pd.DataFrame({"Year": years, "CSIRO Adjusted Sea Level": levels})
@@ -172,9 +162,7 @@ class TestSyntheticData:
         assert fit.n == 30
 
 
-
 # 4. Polynomial fit
-
 
 
 class TestPolynomialFit:
@@ -198,8 +186,8 @@ class TestPolynomialFit:
         assert abs(fit.r_squared - 1.0) < 1e-6
 
 
-
 # 5 & 6. Piecewise fit with known breakpoint
+
 
 def make_piecewise_data(bp: int = 1950) -> pd.DataFrame:
     """Synthetic two-slope data with a hard kink at *bp*."""
@@ -235,7 +223,6 @@ class TestPiecewiseFit:
         assert fit.fit_early.n >= 5
         assert fit.fit_late.n >= 5
         assert fit.total_rss > 0
-
 
 
 # 7. predict_linear – intervals

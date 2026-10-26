@@ -13,9 +13,7 @@ import pytest
 
 from sea_level_predictor import draw_plot
 
-
 # Helpers
-
 
 
 @pytest.fixture(scope="module")
@@ -31,9 +29,7 @@ def fig_and_ax(tmp_path_factory):
     return fig, fig.axes[0]
 
 
-
 # Original freeCodeCamp assertions
-
 
 
 class TestLegacyContract:
@@ -64,9 +60,7 @@ class TestLegacyContract:
         assert int(ax.lines[1].get_xdata()[0]) == 2000
 
 
-
 # Regression: slopes / intercepts match Phase-0 baseline
-
 
 
 class TestLegacyRegressionNumbers:

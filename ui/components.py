@@ -19,9 +19,7 @@ from dataclasses import dataclass
 
 import streamlit as st
 
-
 # Sidebar control panel
-
 
 
 @dataclass
@@ -42,7 +40,7 @@ def render_sidebar(
     last_year: int = 2013,
     available_columns: list[str] | None = None,
 ) -> SidebarConfig:
-    
+
     if available_columns is None:
         available_columns = ["CSIRO Adjusted Sea Level"]
 
@@ -133,8 +131,8 @@ def render_sidebar(
     )
 
 
-
 # Metric cards
+
 
 def render_metric_cards(
     fit_all,

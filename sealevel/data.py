@@ -55,7 +55,6 @@ OPTIONAL_COLUMNS = {
 INCHES_TO_MM: float = 25.4
 
 
-
 # Public API
 
 
@@ -103,7 +102,7 @@ def load_data(csv_path: Path | str | None = None) -> pd.DataFrame:
             raise MissingColumnError(col, df.columns.tolist())
 
     # 4. Coerce types
- 
+
     for col in REQUIRED_COLUMNS:
         df[col] = pd.to_numeric(df[col], errors="coerce")
 

@@ -12,9 +12,7 @@ import pandas as pd
 
 from sealevel.models import LinearFit, fit_linear
 
-
 # Basic metrics
-
 
 
 def rmse(actual: np.ndarray | pd.Series, predicted: np.ndarray | pd.Series) -> float:
@@ -42,9 +40,7 @@ def mae(actual: np.ndarray | pd.Series, predicted: np.ndarray | pd.Series) -> fl
     return float(np.mean(np.abs(a - p)))
 
 
-
 # Backtest
-
 
 
 @dataclass
